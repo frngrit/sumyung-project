@@ -15,7 +15,7 @@ function App() {
           <Routes>
             <Route path = '/' element = {<Home />} />
             <Route path = '/order' element = {<Order />} />
-            <Route path = '/confirm' element = {<Comfirm />} />
+            <Route path = '/checkout' element = {<Comfirm />} />
             <Route path = '/payment' element = {<Payment />} />
             <Route path = '/track' element = {<Tracking />} />
           </Routes>

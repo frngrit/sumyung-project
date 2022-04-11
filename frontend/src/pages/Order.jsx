@@ -1,25 +1,54 @@
-import { Card, Form,Button } from "react-bootstrap";
-import { useState } from "react";
-import Menus  from "../data/Menus";
-function Order() {
+import { Card, Form, Button, Badge } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import data from "../data/Datas";
+import { useNavigate } from "react-router-dom";
 
-  const [orderAmount,setOrderAmount] = useState(
+function Order() {
+  const navigate = useNavigate()
+  const submitorder = JSON.parse(localStorage.getItem('orders')) ? JSON.parse(localStorage.getItem('orders')) : []
+
+
+  const [Orders, setOrders] = useState(
     {
-      cheeseball:0,
-      sumyung:0,
-      bacon:0
+      samyung: 0,
+      cheeseball: 0,
+      bacon: 0,
+      submitOrder: submitorder,
     })
-  const onSubmit = (e) => {
+
+  const addToCart = (e) => {
     e.preventDefault()
+    const { cheeseball, samyung, bacon, submitOrder } = Orders
+
+    if (samyung === 0) {
+      window.alert('กรุณาเลือกมาม่าเผ็ดอย่างน้อย 1 ซอง')
+      return
+    }
+
+    submitOrder.push({
+      cheeseball,
+      samyung,
+      bacon
+    })
+    setOrders({
+      submitOrder,
+      cheeseball: 0,
+      samyung: 0,
+      bacon: 0,
+    })
+    localStorage.setItem('orders', JSON.stringify(Orders.submitOrder ))
+  }
+  const Checkout = (e) => {
+    navigate('/checkout')
   }
 
   return (
-    <div className="container">
+    <div className="container my-3">
       <h1 className="display-3 text-center">Menu</h1>
-      {Menus.map((menu, key) => (
+      {data.menus.map((menu, key) => (
         <Card
           key={key}
-          className = 'mb-3'
+          className='mb-3'
         >
           <Card.Body>
             <Card.Img variant="top" src={menu.source} className='w-25' style={{ minWidth: 150 }} />
@@ -30,34 +59,39 @@ function Order() {
               {menu.description}
             </Card.Text>
             <Form
-            onSubmit = {onSubmit}
+              onSubmit={addToCart}
             >
               <Form.Select
-              name = {menu.code}
-              value = {orderAmount.code}
-              onChange = { (e) =>  {
-                  setOrderAmount((prevState) => (
-                  { 
-                    ...prevState,
-                    [e.target.name]:+e.target.value}
+                name={menu.code}
+                value={Orders[`${menu.code}`]}
+                onChange={(e) => {
+                  setOrders((prevState) => (
+                    {
+                      ...prevState,
+                      [e.target.name]: +e.target.value
+                    }
                   )
-                )}}>
+                  )
+                }}>
                 {[...Array(11).keys()].map((value, index) => (<option key={index}>{value}</option>))}
               </Form.Select>
             </Form>
           </Card.Body>
         </Card>
       ))}
-      <div className = 'row justify-content-end mb-3 mx-2'>
+      <div className='row justify-content-end mb-3 mx-2'>
         <Button
-        className = 'my-1 mx-1'
-        style = {{maxWidth:200}}
+          className='my-1 mx-1'
+          style={{ maxWidth: 200 }}
+          onClick={addToCart}
         >
-          Add to cart
+          Add to cart &nbsp;{<Badge size='lg' bg='secondary'> {Orders.submitOrder.length} </Badge>}
         </Button>
         <Button
-        className = 'my-1 mx-1'
-        style = {{maxWidth:200}}
+          variant='outline-success'
+          className='my-1 mx-1'
+          style={{ maxWidth: 200 }}
+          onClick = {Checkout}
         >
           Submit orders
         </Button>
