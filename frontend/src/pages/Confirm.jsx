@@ -16,6 +16,8 @@ function Confirm() {
   const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('orders')))
   const dispatch = useDispatch()
 
+  
+
   const [formData, setFormData] = useState({
     order: orders,
     slip: '',

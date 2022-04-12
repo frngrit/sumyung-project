@@ -25,15 +25,17 @@ function Order() {
   const addToCart = (e) => {
     e.preventDefault()
     const { cheeseball, samyung, bacon, submitOrder } = Orders
-    console.log(limitBacon,limitCheeseball,limitSamyung)
     if (cheeseball > +limitCheeseball){
       window.alert(`ชีสบอลหมด เหลือ${limitCheeseball}`)
+      return
     }
     if ( samyung > +limitSamyung){
       window.alert(`ซัมยังหมด เหลือ${limitSamyung}`)
+      return
     }
     if (bacon > +limitBacon){
       window.alert(`เบค่อนหมด เหลือ${limitBacon}`)
+      return
     }
     if (samyung === 0) {
       window.alert('กรุณาเลือกมาม่าเผ็ดอย่างน้อย 1 ซอง')
@@ -54,6 +56,10 @@ function Order() {
     localStorage.setItem('orders', JSON.stringify(Orders.submitOrder ))
   }
   const Checkout = (e) => {
+    if (Orders.submitOrder.length < 1){
+      window.alert('กรุณาสั่งอาหาร')
+      return
+    }
     navigate('/checkout')
   }
 
