@@ -2,10 +2,13 @@ import axios from 'axios'
 
 const API_URL = '/api/orders'
 
-const sendOrder = async (orders) => {
-    const response = await axios.post(API_URL, orders)
 
-    return response.data
+const sendOrder = async (orderData) => {
+    const response = await axios.post(API_URL, orderData)
+    if (response){
+        return response.data
+    }
+    return 'error'
 }
 
 const orderService = {

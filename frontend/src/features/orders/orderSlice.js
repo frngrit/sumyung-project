@@ -1,22 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import orderService from "./orderService";
 
-//Get orders from localstorage
-const orders = localStorage.getItem('orders')
+
 
 const initialState = {
-    orders: orders? orders:null,
+    orders: null,
     isError:false,
     isSuccess: false,
     message: '',
 } 
 
+
 //send Order
 export const sendOrder = createAsyncThunk(
     'order/send',
-    async (orders, thunkAPI) => {
+    async (orderData, thunkAPI) => {
         try {
-            return await orderService.sendOrder(orders)
+            return await orderService.sendOrder(orderData)
         } catch (error) {
             const message = (error.response 
                 && error.response.data 
@@ -55,7 +55,6 @@ export const orderSlice = createSlice({
             state.isLoading = false
             state.isError = true
             state.message = action.payload
-            state.user = null
         })
     }
 })
