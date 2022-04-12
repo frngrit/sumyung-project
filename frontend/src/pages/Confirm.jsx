@@ -3,19 +3,21 @@ import { Button, Form } from "react-bootstrap";
 import data from "../data/Datas";
 import QR from '../images/QR.jpg'
 import FileBase64 from 'react-file-base64';
-
 import SummaryOrder from '../components/SummaryOrder'
 
 import {useDispatch} from 'react-redux'
 import {sendOrder} from '../features/orders/orderSlice'
 
+import { useNavigate } from "react-router-dom";
+
 function Confirm() {
 
+  const navigate = useNavigate()
   const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('orders')))
   const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
-    submiteorder: orders,
+    order: orders,
     slip: '',
     phonenumb: '',
     contact: '',
@@ -28,15 +30,26 @@ function Confirm() {
   const onChange = (e) => {
     setFormData(prevState => ({
       ...prevState,
-      submiteorder: orders,
+      order: orders,
       [e.target.id]: e.target.value
     })
     )
   }
 
+  //Submit Order
   const onSubmit = (e) => {
     e.preventDefault()
-    dispatch(sendOrder({formData}))
+    //Check if it has order
+    if (formData.order.length <= 0){
+      window.alert('กรุณาสั่งอาหาร')
+      return
+    }
+
+    //send order
+    dispatch(sendOrder(formData))
+
+    //navigate to tracking
+    navigate('/track', {phonenumb})
   }
 
   const Delete = (key) => {
@@ -50,7 +63,7 @@ function Confirm() {
     localStorage.setItem('orders', JSON.stringify(temp))
     setFormData(prevState => ({
       ...prevState,
-      submiteorder: temp,
+      order: temp,
   })
   )
   }
@@ -75,7 +88,7 @@ function Confirm() {
       ))}
       <h4>รวม <strong>{total}</strong> บาท</h4>
       <div className="d-flex flex-column align-items-center my-3">
-        <img src={QR} style={{ width: 400, maxWidth: '90%' }} className="img-thumbnail" />
+        <img src={QR} style={{ width: 400, maxWidth: '90%' }} alt = 'QR-code' className="img-thumbnail" />
         <Form style={{ maxWidth: '90%', width: 1000 }} className='my-2' onSubmit={onSubmit}>
           <Form.Group>
             <Form.Label className='my-2'>เบอร์โทรศัพท์</Form.Label>
@@ -94,7 +107,7 @@ function Confirm() {
                 multiple={false}
                 onDone={({ base64 }) => setFormData(prevState => ({ ...prevState, slip: base64 }))}
               />
-              {slip.length > 0? <img src={slip} style={{ width: 400, maxWidth: '90%' }} className="img-thumbnail my-2" /> : <></>}
+              {slip.length > 0? <img src={slip} style={{ width: 400, maxWidth: '90%' }} alt = 'slip' className="img-thumbnail my-2" /> : <></>}
             </div>
             <Button type='submit' className='my-3'> Submit </Button>
           </Form.Group>

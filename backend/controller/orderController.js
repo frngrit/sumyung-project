@@ -62,7 +62,6 @@ const getOrderByPhone = asyncHandler(async (req, res) => {
         const PhoneNumber = req.params.phone
 
         const orders = await Order.find({'phonenumb':PhoneNumber}).sort({'updatedAt':-1})
-
         res.status(200).json(orders)
     } catch (error) {
         res.status(400)
