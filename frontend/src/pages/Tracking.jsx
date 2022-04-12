@@ -1,21 +1,31 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import { useLocation } from "react-router-dom";
 import OrderTrack from '../components/OrderTrack'
 import { Button, Form } from "react-bootstrap";
-import { useDispatch } from 'react-redux';
-import { getOrderByPhone } from "../features/orders/orderSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderByPhone,reset } from "../features/orders/orderSlice";
 
 function Tracking() {
-  var {dummy} = useLocation() || null
-  const [phonenumb,setPhonumber] = useState(dummy)
+  var {state} = useLocation() || null
+  const [phonenumb,setPhonumber] = useState(state)
   const [form,setForm] = useState('')
+  
+  const {orders} = useSelector( (state) => state.order)
 
-
+  
   //Get Order
   const dispatch = useDispatch()
-  if(phonenumb){
-    dispatch(getOrderByPhone(phonenumb))
-  }
+  
+
+  useEffect( () => {
+    if(phonenumb){
+      dispatch(getOrderByPhone(phonenumb))
+    }
+    return () => {
+      dispatch(reset())
+    }
+  }, [phonenumb,dispatch]) 
+
 
   return (
     <div className="container">
@@ -24,16 +34,15 @@ function Tracking() {
         {phonenumb? 
         (<div>
           <h1 className="display-6 text-center">Order of {phonenumb}</h1>
-          <OrderTrack phonenumb = {phonenumb}/>
+          <OrderTrack orders = {orders}/>
         </div>) 
         : 
         (<div>
           <h1 className="display-5 text-center">Please insert your phone number</h1>
           <Form>
             <Form.Control type = 'text' value = {form} onChange = {e => setForm(e.target.value)}/>
-            <Button className = 'my-2' onClick = {e => setPhonumber(form)}>search</Button>
+            <Button className = 'my-2' style = {{width:'100%'}} onClick = {e => setPhonumber(form)}>search</Button>
           </Form>
-          <OrderTrack phonenumb = {phonenumb}/>
         </div>)
         }
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Form } from "react-bootstrap";
 import data from "../data/Datas";
 import QR from '../images/QR.jpg'
@@ -6,7 +6,7 @@ import FileBase64 from 'react-file-base64';
 import SummaryOrder from '../components/SummaryOrder'
 
 import {useDispatch} from 'react-redux'
-import {sendOrder} from '../features/orders/orderSlice'
+import {sendOrder, reset} from '../features/orders/orderSlice'
 
 import { useNavigate } from "react-router-dom";
 
@@ -27,6 +27,13 @@ function Confirm() {
 
   const { slip, phonenumb, contact, comment, location } = formData
 
+
+  useEffect( () => {
+    return () => {
+      dispatch(reset())
+    }
+  },[]) 
+
   const onChange = (e) => {
     setFormData(prevState => ({
       ...prevState,
@@ -37,7 +44,7 @@ function Confirm() {
   }
 
   //Submit Order
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     //Check if it has order
     if (formData.order.length <= 0){
@@ -46,10 +53,13 @@ function Confirm() {
     }
 
     //send order
-    dispatch(sendOrder(formData))
+    await dispatch(sendOrder(formData))
+
+    //delete localStorage
+    localStorage.removeItem('orders')
 
     //navigate to tracking
-    navigate('/track', {phonenumb})
+    navigate('/track', {state:phonenumb})
   }
 
   const Delete = (key) => {

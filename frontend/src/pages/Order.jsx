@@ -2,11 +2,17 @@ import { Card, Form, Button, Badge } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import data from "../data/Datas";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 function Order() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const submitorder = JSON.parse(localStorage.getItem('orders')) ? JSON.parse(localStorage.getItem('orders')) : []
-
+  
+  const state = useSelector( (state) => state.food)
+  const {foods} =  state
+  const latestFoods = foods? foods[0]: {}
+  const {bacon: limitBacon, cheeseball: limitCheeseball, samyung: limitSamyung} = latestFoods
 
   const [Orders, setOrders] = useState(
     {
@@ -19,7 +25,16 @@ function Order() {
   const addToCart = (e) => {
     e.preventDefault()
     const { cheeseball, samyung, bacon, submitOrder } = Orders
-
+    console.log(limitBacon,limitCheeseball,limitSamyung)
+    if (cheeseball > +limitCheeseball){
+      window.alert(`ชีสบอลหมด เหลือ${limitCheeseball}`)
+    }
+    if ( samyung > +limitSamyung){
+      window.alert(`ซัมยังหมด เหลือ${limitSamyung}`)
+    }
+    if (bacon > +limitBacon){
+      window.alert(`เบค่อนหมด เหลือ${limitBacon}`)
+    }
     if (samyung === 0) {
       window.alert('กรุณาเลือกมาม่าเผ็ดอย่างน้อย 1 ซอง')
       return

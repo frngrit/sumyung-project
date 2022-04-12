@@ -31,9 +31,9 @@ export const sendOrder = createAsyncThunk(
 //get Order by phone number
 export const getOrderByPhone = createAsyncThunk(
     'order/getOrderByPhone',
-    async (orderData, thunkAPI) => {
+    async (phonenumb, thunkAPI) => {
         try {
-            return await orderService.getOrderByPhone(orderData)
+            return await orderService.getOrderByPhone(phonenumb)
         } catch (error) {
             const message = (error.response 
                 && error.response.data 
@@ -51,6 +51,7 @@ export const orderSlice = createSlice({
     initialState,
     reducers:{
         reset: (state) => {
+            state.orders = null
             state.isLoading = false
             state.isError = false
             state.isSuccess = false
@@ -65,7 +66,6 @@ export const orderSlice = createSlice({
         .addCase(sendOrder.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.orders = action.payload.order
         })
         .addCase(sendOrder.rejected, (state, action) => {
             state.isLoading = false
