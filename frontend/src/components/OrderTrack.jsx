@@ -1,13 +1,21 @@
 import React from 'react'
 import { Card, ListGroup } from "react-bootstrap";
+import {useSelector} from 'react-redux'
+import Spinner from '../components/Spinner';
 
 function OrderTrack({ orders }) {
+    const {isLoading} = useSelector( (state) => state.order)
     const statusMap = {
         pending: 'กำลังรอการอนุมัติออเดอร์ ',
         cooking: 'กำลังปรุงอาหาร',
         delivery: 'กำลังส่ง',
         success: 'ส่งสำเร็จ',
     }
+
+    if(isLoading){
+        return (<Spinner />)
+      }
+    
 
     return (
         <>

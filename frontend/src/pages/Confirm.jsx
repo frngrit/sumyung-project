@@ -5,9 +5,9 @@ import QR from '../images/QR.jpg'
 import FileBase64 from 'react-file-base64';
 import SummaryOrder from '../components/SummaryOrder'
 
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 import {sendOrder, reset} from '../features/orders/orderSlice'
-
+import Spinner from '../components/Spinner';
 import { useNavigate } from "react-router-dom";
 
 function Confirm() {
@@ -15,6 +15,7 @@ function Confirm() {
   const navigate = useNavigate()
   const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('orders')))
   const dispatch = useDispatch()
+  const {isLoading} = useSelector( (state) => state.order)
 
   
 
@@ -50,9 +51,10 @@ function Confirm() {
     e.preventDefault()
     //Check if it has order
     if (formData.order.length <= 0){
-      window.alert('กรุณาสั่งอาหาร')
+      alert('กรุณาสั่งอาหาร')
       return
     }
+
 
     //send order
     await dispatch(sendOrder(formData))
@@ -91,6 +93,10 @@ function Confirm() {
   }
   //
 
+  if(isLoading){
+    return (<Spinner />)
+  }
+
 
   return (
     <div className="container">
@@ -103,15 +109,15 @@ function Confirm() {
         <img src={QR} style={{ width: 400, maxWidth: '90%' }} alt = 'QR-code' className="img-thumbnail" />
         <Form style={{ maxWidth: '90%', width: 1000 }} className='my-2' onSubmit={onSubmit}>
           <Form.Group>
-            <Form.Label className='my-2'>เบอร์โทรศัพท์</Form.Label>
+            <Form.Label className='my-2'>เบอร์โทรศัพท์ (ต้องใส่)</Form.Label>
             <Form.Control type="text" placeholder='เบอร์โทรศัพท์' id='phonenumb' value={phonenumb} onChange={onChange} />
             <Form.Label className='my-2'>ช่องทางการติดต่อเผื่อในกรณีที่มีปัญหา (เช่น Line)</Form.Label>
             <Form.Control type="text" placeholder='ช่องทางการติดต่อ' id='contact' value={contact} onChange={onChange} />
-            <Form.Label className='my-2'>ที่อยู่</Form.Label>
+            <Form.Label className='my-2'>ที่อยู่ (ต้องใส่)</Form.Label>
             <Form.Control type="text" placeholder='ชื่อหอ / คอนโด' id='location' value={location} onChange={onChange} />
             <Form.Label className='my-2'>เพิ่มเติม</Form.Label>
             <Form.Control as='textarea' type="text" placeholder='เช่น เผ็ดน้อย, ไม่โรยสาหร่าย' id='comment' value={comment} onChange={onChange} />
-            <Form.Label className='my-2'>อัพโหลดสลิป</Form.Label>
+            <Form.Label className='my-2'>อัพโหลดสลิป (ต้องใส่)</Form.Label>
             <div className="d-flex flex-column align-items-left">
               <FileBase64
                 className="form-control"
