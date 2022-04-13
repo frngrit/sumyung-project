@@ -55,6 +55,11 @@ function Confirm() {
       return
     }
 
+    if (!phonenumb || !slip || !location){
+      alert('กรุณากรอกข้อมูลให้ครบถ้วน')
+      return
+    }
+
 
     //send order
     await dispatch(sendOrder(formData))
