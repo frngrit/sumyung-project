@@ -7,7 +7,7 @@ const protect = require('../middleWare/authMiddleware')
 router.route('/:phone').get(getOrderByPhone)
 
 // @api/orders/:id
-router.route('/:id').put(protect,updateOrder)
+router.route('/:id').put(updateOrder)
 
 
 // @api/orders/

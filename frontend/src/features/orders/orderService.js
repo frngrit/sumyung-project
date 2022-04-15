@@ -13,9 +13,23 @@ const getOrderByPhone = async (phonenumb) => {
     return response.data
 }
 
+const getOrders = async () => {
+    const response = await axios.get(API_URL)
+    return response.data
+}
+
+const updateOrder = async (data) => {
+    const {id,status} = data
+    const response = await axios.put(API_URL+id,status)
+    return response.data
+}
+
+
 const orderService = {
     sendOrder,
     getOrderByPhone,
+    getOrders,
+    updateOrder
 }
 
 export default orderService

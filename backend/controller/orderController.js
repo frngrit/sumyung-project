@@ -40,7 +40,7 @@ const sendOrder = asyncHandler(async (req, res) => {
 //@access Public
 const getOrders = asyncHandler(async (req, res) => {
     try {
-        const orders = await Order.find()
+        const orders = await Order.find().sort({'updatedAt':-1})
         
         res.status(200).json(
             orders

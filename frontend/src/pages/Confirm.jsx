@@ -96,6 +96,9 @@ function Confirm() {
       total += +price * order[code]
     }
   }
+  if (total < 100){
+    total += 15
+  }
   //
 
   if(isLoading){
@@ -109,7 +112,7 @@ function Confirm() {
       {orders.map((order, key) => (
         <SummaryOrder key={key} id={key} order={order} deleteFunc={Delete} />
       ))}
-      <h4>รวม <strong>{total}</strong> บาท</h4>
+      <h4>รวม <strong>{total}</strong> บาท (ค่าส่ง 15 บาท)</h4>
       <div className="d-flex flex-column align-items-center my-3">
         <img src={QR} style={{ width: 400, maxWidth: '90%' }} alt = 'QR-code' className="img-thumbnail" />
         <Form style={{ maxWidth: '90%', width: 1000 }} className='my-2' onSubmit={onSubmit}>

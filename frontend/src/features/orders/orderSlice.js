@@ -45,6 +45,41 @@ export const getOrderByPhone = createAsyncThunk(
     }
     )
 
+//get Order by phone number
+export const getOrders = createAsyncThunk(
+    'order/getOrders',
+    async (thunkAPI) => {
+        try {
+            return await orderService.getOrders()
+        } catch (error) {
+            const message = (error.response 
+                && error.response.data 
+                && error.data.message)
+            || error.message 
+            || error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+    )
+
+//get Order by phone number
+export const updateOrder = createAsyncThunk(
+    'order/update',
+    async (data, thunkAPI) => {
+        try {
+            return await orderService.updateOrder(data)
+        } catch (error) {
+            const message = (error.response 
+                && error.response.data 
+                && error.data.message)
+            || error.message 
+            || error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+    )
+
+
 
 export const orderSlice = createSlice({
     name:'order',
@@ -81,6 +116,31 @@ export const orderSlice = createSlice({
             state.orders = action.payload
         })
         .addCase(getOrderByPhone.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+        })
+        .addCase(getOrders.pending, (state) => {
+            state.isLoading = true
+        })
+        .addCase(getOrders.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.orders = action.payload
+        })
+        .addCase(getOrders.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+        })
+        .addCase(updateOrder.pending, (state) => {
+            state.isLoading = true
+        })
+        .addCase(updateOrder.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+        })
+        .addCase(updateOrder.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.message = action.payload
