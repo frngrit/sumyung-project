@@ -4,7 +4,7 @@ const {getFoods, MakeFoods, updateFoods, Login,getMe} = require('../controller/f
 const protect = require('../middleWare/authMiddleware')
 
 // @/api/foods/
-router.route('/').get(getFoods).post(MakeFoods).put(protect, updateFoods)
+router.route('/').get(getFoods).post(MakeFoods).put(updateFoods)
 
 // @/api/foods/login
 router.route('/login').post(Login)

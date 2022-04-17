@@ -24,6 +24,22 @@ export const getFoods = createAsyncThunk(
     }
 )
 
+export const updateFood = createAsyncThunk(
+    'food/updateFood',
+    async (data, thunkAPI) => {
+        try {
+            return await foodService.updateFood(data)
+        } catch (error) {
+            const message = (error.response
+                && error.response.data
+                && error.data.message)
+                || error.message
+                || error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
+
 export const foodSliec = createSlice({
     name: 'order',
     initialState,
@@ -45,6 +61,18 @@ export const foodSliec = createSlice({
                 state.foods = action.payload
             })
             .addCase(getFoods.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(updateFood.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateFood.fulfilled, (state) => {
+                state.isLoading = false
+                state.isSuccess = true
+            })
+            .addCase(updateFood.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

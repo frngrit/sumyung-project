@@ -8,9 +8,15 @@ const getFoods = async () => {
     return response.data
 }
 
+const updateFood = async (data) => {
+    const response = await axios.put(API_URL,data)
+    return response.data
+}
+
 
 const foodService = {
     getFoods,
+    updateFood,
 }
 
 export default foodService

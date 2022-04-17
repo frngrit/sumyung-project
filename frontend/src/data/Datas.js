@@ -8,7 +8,7 @@ const menus = [
       price: 55,
       source: NoodlePic,
       code: 'samyung',
-      description: 'เลือกจำนวนซัมยังที่ต้องการต่อหนึ่งจาน (50 บาทต่อห่อ)'
+      description: 'เลือกจำนวนซัมยังที่ต้องการต่อหนึ่งจาน (55 บาทต่อห่อ)'
     },
 
     {
@@ -16,7 +16,7 @@ const menus = [
       price: 25,
       source: BaconPic,
       code: 'bacon',
-      description: 'เลือกจำนวนเบค่อน (1 serve ได้ 50 กรัม) ที่ต้องการต่อหนึ่งจาน (25 บาทต่อ 50 กรัม)'
+      description: 'เลือกจำนวนเบค่อนที่ต้องการต่อหนึ่งจาน (25 บาทต่อ 50 กรัม)'
     },
 
     {
@@ -24,7 +24,7 @@ const menus = [
       price: 20,
       source: CheeseballPic,
       code: 'cheeseball',
-      description: 'เลือกจำนวนลูกชิ้นปลาชีส (1 serve ได้ 2 ลูก) ที่ต้องการต่อหนึ่งจาน (20 บาทต่อ 3 ลูก)'
+      description: 'เลือกจำนวนลูกชิ้นปลาชีสที่ต้องการต่อหนึ่งจาน (20 บาทต่อ 3 ลูก)'
     },
   ]
 
