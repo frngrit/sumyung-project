@@ -41,7 +41,7 @@ function App() {
         </Router>) 
         : (
         <div className="container">
-          <h1 className="display-3 text-center">Close</h1>
+          <h1 className="display-3 text-center my-3">Close</h1>
         </div>)
         }
 
