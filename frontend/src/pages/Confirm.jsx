@@ -137,8 +137,6 @@ function Confirm() {
   }
 
 
-  console.log(totalAmount)
-  console.log(samyung, bacon, cheeseball)
   if (total < 100) {
     total += 15
   }

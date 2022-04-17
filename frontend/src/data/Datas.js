@@ -1,6 +1,7 @@
 import NoodlePic from '../images/sumyung-noodles-pack.jpg'
 import BaconPic from '../images/smoked_bacon.jpg'
 import CheeseballPic from '../images/cheeseball.jpeg'
+import Promotion from '../images/promotion.png'
 
 const menus = [
     {
@@ -28,8 +29,10 @@ const menus = [
     },
   ]
 
+
 const data = {
-  menus
+  menus,
+  Promotion
 }
 
 export default data
