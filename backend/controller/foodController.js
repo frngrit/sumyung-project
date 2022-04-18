@@ -72,7 +72,7 @@ const updateFoods = ( asyncHandler ( async (req, res) => {
     try {
         var { samyung, bacon, cheeseball } = req.body
 
-        if (!samyung || !bacon || !cheeseball) {
+        if (!(samyung+1) || !(bacon+1) || !(cheeseball+1)) {
             res.status(400)
             throw new Error(`please provide all information (updateFood: samyung: ${samyung}
                 , bacon: ${bacon}, cheeseBall: ${cheeseball})`)

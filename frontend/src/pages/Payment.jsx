@@ -40,6 +40,9 @@ function Payment() {
       data['status'] = {status:'delivery'}
       await dispatch(updateOrder(data))
     }else if (value === 'delivery'){
+      data['status'] = {status:'success'}
+      await dispatch(updateOrder(data))
+    }else if (value === 'success'){
       data['status'] = {status:'pending'}
       await dispatch(updateOrder(data))
     }else{
@@ -77,7 +80,7 @@ function Payment() {
             <tr>
               <td>{index+1}</td>
               <td>{JSON.stringify(data['order'])}</td>
-              <td>{data.phonenumb}</td>
+              <td><a href={`tel:${data.phonenumb}`}>{data.phonenumb}</a></td>
               <td>{data.location}</td>
               <td><img src = {data.slip} style = {{width:'70%', minWidth:300}}/></td>
               <td>{data.status}</td>

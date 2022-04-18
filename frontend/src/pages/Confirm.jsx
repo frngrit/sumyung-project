@@ -16,7 +16,7 @@ function Confirm() {
   const navigate = useNavigate()
   const [orders, setOrders] = useState(JSON.parse(localStorage.getItem('orders')))
   const dispatch = useDispatch()
-  const { isLoading } = useSelector((state) => state.order)
+  const { isLoading, isSuccess } = useSelector((state) => state.order)
 
 
   //Check food
@@ -61,7 +61,7 @@ function Confirm() {
     )
   }
 
-  
+
 
   const Delete = (key) => {
 
@@ -176,7 +176,9 @@ function Confirm() {
               />
               {slip.length > 0 ? <img src={slip} style={{ width: 400, maxWidth: '90%' }} alt='slip' className="img-thumbnail my-2" /> : <></>}
             </div>
-            <Button type='submit' className='my-3'> Submit </Button>
+            <Button type='submit' className='my-3'> Submit </Button> 
+            <strong><p>**หากทำการสั่งซื้อเสร็จแล้ว ให้ทำการตรวจสอบสถานะที่หน้า track order หรือเว็บรอสักพักเว็บจะเปลี่ยนหน้านั้นเอง</p>
+            <p>หากผ่านไป 5 นาทีแล้วสถานะยังไม่เปลี่ยนจาก รอการอนุมัติเป็น กำลังปรุงอาหารอยู่ ให้ติดต่อมาทาง Line**</p></strong>
           </Form.Group>
         </Form>
       </div>
